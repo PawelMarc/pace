@@ -304,31 +304,48 @@ how many samples we need before we consider a low number to mean completion.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    trackWebSockets: false
+            <div class="content"><div class='highlight'><pre>    trackWebSockets: <span class="literal">false</span>
 
-now = -&gt;
-  performance?.now?() ? +new Date
+<span class="function"><span class="title">now</span></span> = -&gt;
+  performance?.now?() ? +<span class="keyword">new</span> Date
 
-requestAnimationFrame = window.requestAnimationFrame or window.mozRequestAnimationFrame or
-                        window.webkitRequestAnimationFrame or window.msRequestAnimationFrame
+requestAnimationFrame = window.requestAnimationFrame <span class="keyword">or</span> window.mozRequestAnimationFrame <span class="keyword">or</span>
+                        window.webkitRequestAnimationFrame <span class="keyword">or</span> window.msRequestAnimationFrame
 
-cancelAnimationFrame = window.cancelAnimationFrame or window.mozCancelAnimationFrame
+cancelAnimationFrame = window.cancelAnimationFrame <span class="keyword">or</span> window.mozCancelAnimationFrame
 
-if not requestAnimationFrame?
-  requestAnimationFrame = (fn) -&gt;
-    setTimeout fn, 50
+<span class="keyword">if</span> <span class="keyword">not</span> requestAnimationFrame?
+  <span class="function"><span class="title">requestAnimationFrame</span></span> = (fn) -&gt;
+    setTimeout fn, <span class="number">50</span>
 
-  cancelAnimationFrame = (id) -&gt;
+  <span class="function"><span class="title">cancelAnimationFrame</span></span> = (id) -&gt;
     clearTimeout id
 
-runAnimation = (fn) -&gt;
+<span class="function"><span class="title">runAnimation</span></span> = (fn) -&gt;
   last = now()
-  tick = -&gt;
+  <span class="function"><span class="title">tick</span></span> = -&gt;
     diff = now() - last
-    last = now()
 
-    fn diff, -&gt;
-      requestAnimationFrame tick
+    <span class="keyword">if</span> diff &gt;= <span class="number">33</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Don&#39;t run faster than 30 fps</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      last = now()
+      fn diff, -&gt;
+        requestAnimationFrame tick
+    else
+      setTimeout tick, (33 - diff)
 
   tick()
 
@@ -439,11 +456,11 @@ class Bar
         </li>
         
         
-        <li id="section-19">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>The whole-part of the number has changed</p>
 
@@ -456,11 +473,11 @@ class Bar
         </li>
         
         
-        <li id="section-20">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>We cap it at 99 so we can use prefix-based attribute selectors</p>
 
@@ -533,11 +550,11 @@ Pace.<span class="function"><span class="title">track</span></span> = (fn, args.
         </li>
         
         
-        <li id="section-21">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>We should only ever instantiate one of these</p>
 
@@ -594,11 +611,11 @@ _intercept = <span class="literal">null</span>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>If we want to start the progress bar
 on every request, we need to hear the request
@@ -653,11 +670,11 @@ start will have created.</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>We&#39;re dealing with a modern browser with progress event support</p>
 
@@ -672,11 +689,11 @@ start will have created.</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>If it&#39;s chunked encoding, we have no way of knowing the total length of the
 response, all we can do is increment the progress with backoff such that we
@@ -810,11 +827,11 @@ never hit 100% until it&#39;s done.</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>After we&#39;ve got a datapoint, we have catchupTime to
 get the progress bar to reflect that new data</p>
@@ -828,11 +845,11 @@ get the progress bar to reflect that new data</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Based on the rate of the last update, we preemptively update
 the progress bar, scaling it so it can never hit 100% until we
@@ -866,11 +883,11 @@ Pace.running = <span class="literal">false</span>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>We reset the bar whenever it looks like an ajax navigation has occured.</p>
 
@@ -911,11 +928,11 @@ SOURCE_KEYS =
         </li>
         
         
-        <li id="section-28">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>Each source of progress data has it&#39;s own scaler to smooth its output</p>
 
@@ -926,11 +943,11 @@ SOURCE_KEYS =
         </li>
         
         
-        <li id="section-29">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>We have an extra scaler for the final output to keep things looking nice as we add and
 remove sources</p>
@@ -947,11 +964,11 @@ Pace.<span class="function"><span class="title">stop</span></span> = -&gt;
         </li>
         
         
-        <li id="section-30">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>Not all browsers support cancelAnimationFrame</p>
 
@@ -980,11 +997,11 @@ Pace.<span class="function"><span class="title">go</span></span> = -&gt;
         </li>
         
         
-        <li id="section-31">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <p>Every source gives us a progress number from 0 - 100
 It&#39;s up to us to figure out how to turn that into a smoothly moving bar</p>
@@ -1001,11 +1018,11 @@ between the numbers.</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p>A source is composed of a bunch of elements, each with a raw, unscaled progress</p>
 
@@ -1019,11 +1036,11 @@ between the numbers.</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>Each element is given it&#39;s own scaler, which turns its value into something
 smoothed for display</p>
@@ -1068,11 +1085,11 @@ Pace.<span class="function"><span class="title">start</span></span> = (_options)
         </li>
         
         
-        <li id="section-34">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>It&#39;s usually possible to render a bit before the document declares itself ready</p>
 
@@ -1088,11 +1105,11 @@ Pace.<span class="function"><span class="title">start</span></span> = (_options)
         </li>
         
         
-        <li id="section-35">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p>AMD</p>
 
@@ -1104,11 +1121,11 @@ Pace.<span class="function"><span class="title">start</span></span> = (_options)
         </li>
         
         
-        <li id="section-36">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p>CommonJS</p>
 
@@ -1120,11 +1137,11 @@ Pace.<span class="function"><span class="title">start</span></span> = (_options)
         </li>
         
         
-        <li id="section-37">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               <p>Global</p>
 
